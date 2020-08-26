@@ -2,28 +2,37 @@
 
 var generateBtn = document.querySelector("#generate");
 
-// Write password to the #password input 
-/*
-function writePassword() {
-  var password = generatePassword();
-  var passwordText = document.querySelector("#password");
+//I decided to use the variables from the CharCode instead of typing everything in because it seems more inclusive.
 
-}
+var lowerChars = String.fromCharCode(97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122);
+var upperChars = String.fromCharCode(65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90);
+var numberChars = String.fromCharCode(48, 49, 50, 51, 52, 53, 54, 55, 56, 57);
+var symbolChars = String.fromCharCode(33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47).concat(58, 59, 60, 61, 62, 63, 64).concat(91, 92, 93, 94, 95, 96);
+
+//Listing that these variables to exist, to be used later on to determine if different CharSets to be included.
+
+var passwordLength;
+var upperSelect;
+var lowerSelect;
+var numberSelect;
+var symbolSelect;
+
+/*attempt at shortening the amount needed to fil in
+
+var lowerChars = String.fromCharCode.lowToHigh(97, 122);
 */
 
- 
 
+/* Attempt at making it easier to input the range in the String.fromCharCode() to assign the variables
 
-
-
-const randomFunction = {
-  lower: lowerRandom,
-  upper: upperRandom,
-  number: numberRandom,
-  symbol: symbolRandom
-};
-
-
+function lowToHigh (low, high){
+    const range = [];
+    for (let i = low; i <= high; i++){
+    range.push(i)
+    }
+    return range
+}
+*/
 
 
 //Function to determine the length
@@ -55,8 +64,7 @@ const randomFunction = {
 
 function upperFunc(){
   upperSelect = prompt("Would you like password to contain uppercase letters? (Yes or No)");
-  upperSelect = upperSelect.toLowerCase();
-
+  
   if (upperSelect === null || upperSelect === "" ){
     alert("Please answer Yes or No")
     upperFunc();
@@ -78,10 +86,11 @@ function upperFunc(){
 }
 
 
-//Lowercase determination
+//To determine if lowercase is needed.
+
 function lowerFunc(){
-  lowerSelect = prompt("Would you like password  contain lowercase letters?(Yes or No)");
-  lowerSelect = lowerSelect.toLowerCase();
+  lowerSelect = prompt("Would you like password to contain lowercase letters? (Yes or No)");
+  
 
   if (lowerSelect === null || lowerSelect === "" ){
     alert("Please answer Yes or No")
@@ -104,7 +113,8 @@ function lowerFunc(){
 }
 
 
-//Numer determination
+//To see if Numbers needed.
+
 function numberFunc(){
   numberSelect = prompt("Would you like password to contain numbers? (Yes or No)");
   numberSelect = numberSelect.toLowerCase();
@@ -129,7 +139,8 @@ function numberFunc(){
   return numberSelect;
 }
 
-//Symbol determination
+//To see if Symbols needed.
+
 function symbolFunc(){
   symbolSelect = prompt("Would you like password to contain symbols? (Yes or No)");
   symbolSelect = symbolSelect.toLowerCase();
@@ -155,63 +166,133 @@ function symbolFunc(){
 }
 
 
-lengthFunc();
-upperFunc();
-lowerFunc();
-numberFunc();
-symbolFunc();
 
 
-console.log(passwordLength);
-console.log(upperSelect);
-console.log(lowerSelect);
-console.log(numberSelect);
-console.log(symbolSelect);
 
 
-//Functions that generate random
 
+//Functions that generate random (didnt work out, kept generating the same 4 characters over and over)
+/*
 function lowerRandom()  {
   return String.fromCharCode(Math.floor(Math.random() * 26) + 97);
-
+  }
 }
 
 function upperRandom()  {
   return String.fromCharCode(Math.floor(Math.random() * 26) + 65);
-  
+}
   }
 
 function numberRandom()  {
     return String.fromCharCode(Math.floor(Math.random() * 10) + 48);
-    
+  }
     }
 
 function symbolRandom()  {
     const symbols = "!#$%&()*+,-/:;<=>?@^_`~"
     return symbols[Math.floor(Math.random() * symbols.length)];
-      
+  }
       }
 
+*/
 
 
-console.log(lowerRandom());
-console.log(upperRandom());
-console.log(numberRandom());
-console.log(symbolRandom());
+//Function to check if all previous selections are to be included or not
+function passwordGenerate(){
+  lengthFunc();
+  console.log(passwordLength);
+  upperFunc();
+  console.log(upperSelect);
+  lowerFunc();
+  console.log(lowerSelect);
+  numberFunc();
+  console.log(numberSelect);
+  symbolFunc()
+  console.log(symbolSelect);
 
+    var characters; 
+    var password = "";
 
+    //There has to be a more efficient way to do this, will look at attempting to fix at a later date
 
+    if (upperSelect && numberSelect && symbolSelect && lowerSelect){
+      characters = upperChars + lowerChars + numberChars + symbolChars;
+    }
 
+    else if (lowerSelect && numberSelect && symbolSelect){
+      characters = lowerChars + numberChars + symbolChars;
+    }
 
+    else if (upperSelect && numberSelect && symbolSelect){
+      characters = upperChars + numberChars + symbolChars;
+    }
 
+    else if (upperSelect && numberSelect){
+      characters = upperChars + numberChars;
+    }
 
+    else if (upperSelect && symbolSelect){
+      characters = lowerChars + numberChars;
+    }
 
+    else if (lowerSelect && symbolSelect){
+      characters = lowerChars + symbolChars;
+    }
 
+    else if (lowerSelect && numberSelect){
+      characters = lowerChars + numberChars;
+    }
 
-/*
-// Add event listener to generate button
-generateBtn.addEventListener("click", writePassword){
+    else if (lowerSelect && upperSelect){
+      characters = lowerChars + upperChars;
+    }
 
+    else if (numberSelect && symbolSelect){
+      characters = numberChars + symbolChars;
+    }
+
+    else if (lowerSelect){
+      characters = lowerChars;
+    }
+
+    else if (numberSelect){
+      characters = numberChars;
+    }
+
+    else if (symbolSelect){
+      characters = symbolChars;
+    }
+
+    else {
+      
+    }
+      
+    
+    
+    //For loop to randomly select from the required Charsets.
+
+    for(var i = 0; i < passwordLength; i++){
+      password += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return password;
 }
 
-  */
+
+// Write password to the #password input 
+
+
+function writePassword() {
+  var myPassword = "";
+  myPassword = passwordGenerate();
+  var passwordText = document.querySelector("#password");
+  passwordText.value = myPassword;
+}
+
+
+
+// Add event listener to generate button
+generateBtn.addEventListener("click", writePassword)
+
+
+
+  
