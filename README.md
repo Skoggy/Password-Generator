@@ -1,6 +1,7 @@
 # Password-Generator
 ### A tool to generate a random password that includes what parameters are chosen
 
+![Image of Password Generator](2020-10-06.png)
 
 
 ## Purpose
